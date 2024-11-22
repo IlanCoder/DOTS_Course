@@ -4,7 +4,7 @@ using Unity.Entities;
 using Unity.Physics;
 
 namespace ECS.Systems {
-    public partial struct UnitSetupSystem : ISystem {
+    public partial struct PhysicsMassSetupSystem : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
             

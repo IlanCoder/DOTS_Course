@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 1912080961}
   - component: {fileID: 1912080960}
   - component: {fileID: 1912080959}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,6 +248,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 5798373731512671337, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: stoppingDistance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7047263188788017442, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -258,7 +262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7047263188788017442, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -9.19
       objectReference: {fileID: 0}
     - target: {fileID: 7047263188788017442, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: m_LocalRotation.w

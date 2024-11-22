@@ -1,5 +1,4 @@
-﻿using ECS.Tags;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 

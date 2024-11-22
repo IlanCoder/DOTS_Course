@@ -7,7 +7,7 @@ namespace ECS.Authoring {
         [SerializeField] float val;
         public class Baker: Baker<MoveSpeedAuth> {
             override public void Bake(MoveSpeedAuth auth) {
-                Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+                Entity entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new MoveSpeed {
                     Val = auth.val
                 });
