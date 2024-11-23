@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace ECS.Aspects {
     
@@ -28,11 +29,12 @@ namespace ECS.Aspects {
         [BurstCompile]
         public void MoveUnit(float deltaTime) {
             float3 moveDirection = _targetPosition.ValueRO.Target - _localTransform.ValueRO.Position;
-                
-            _localTransform.ValueRW.Rotation = math.slerp(_localTransform.ValueRO.Rotation,
-            quaternion.LookRotation(moveDirection, new float3(0, 1, 0)), deltaTime);
 
-            _physicsVelocity.ValueRW.Linear = _localTransform.ValueRO.Forward() * _moveSpeed.ValueRO.Val;
+            _localTransform.ValueRW.Rotation = math.slerp(_localTransform.ValueRO.Rotation,
+                quaternion.LookRotation(moveDirection, _localTransform.ValueRO.Up()),
+                deltaTime * _moveSpeed.ValueRO.RotateSpeed);
+
+            _physicsVelocity.ValueRW.Linear = _localTransform.ValueRO.Forward() * _moveSpeed.ValueRO.TranslateSpeed;
             _physicsVelocity.ValueRW.Angular = float3.zero;
         }
     }

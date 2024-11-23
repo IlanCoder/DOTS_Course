@@ -36,14 +36,19 @@ namespace ECS.Systems {
                 Results = hits
             }.Schedule();
             jobHandle.Complete();
+            
+            EnableUnitsMovement(ref hits);
+            hits.Dispose();
+        }
+        
+        void EnableUnitsMovement(ref NativeArray<RaycastHit> hits) {
             foreach (var(movableUnitTag, entity) in SystemAPI.Query<RefRO<MovableUnit>>().WithEntityAccess()) {
                 TargetPosition targetPosition = SystemAPI.GetComponent<TargetPosition>(entity);
                 targetPosition.Target = hits[0].Position;
                 SystemAPI.SetComponent(entity, targetPosition);
                 if (!SystemAPI.IsComponentEnabled<TargetPosition>(entity))
-                                    SystemAPI.SetComponentEnabled<TargetPosition>(entity, true);
+                    SystemAPI.SetComponentEnabled<TargetPosition>(entity, true);
             }
-            hits.Dispose();
         }
     }
 }
