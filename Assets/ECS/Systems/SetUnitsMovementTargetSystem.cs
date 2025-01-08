@@ -10,7 +10,7 @@ using Ray = UnityEngine.Ray;
 using RaycastHit = Unity.Physics.RaycastHit;
 
 namespace ECS.Systems {
-    public partial class SetUnitsMovementTarget : SystemBase {
+    public partial class SetUnitsMovementTargetSystem : SystemBase {
         Camera _camera;
         Ray ray;
         

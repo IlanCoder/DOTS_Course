@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
+using Ray = Unity.Physics.Ray;
 
 namespace ECS.Aspects {
     
