@@ -3,10 +3,10 @@ using Unity.Mathematics;
 using UnityEngine;
 
 namespace ECS.Authoring {
-    public class TargetPositionAuth : MonoBehaviour {
+    public class MovableUnitAuth : MonoBehaviour {
         [SerializeField] float stoppingDistance;
-        private class TargetPositionAuthBaker : Baker<TargetPositionAuth> {
-            public override void Bake(TargetPositionAuth authoring) {
+        private class MovableUnitAuthBaker : Baker<MovableUnitAuth> {
+            public override void Bake(MovableUnitAuth authoring) {
                 Entity entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new TargetPosition {
                     StoppingDistance = authoring.stoppingDistance,

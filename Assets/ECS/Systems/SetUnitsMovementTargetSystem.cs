@@ -1,5 +1,4 @@
-﻿using ECS.Aspects;
-using ECS.Authoring;
+﻿using ECS.Authoring;
 using ECS.Jobs;
 using Unity.Collections;
 using Unity.Entities;
@@ -42,10 +41,11 @@ namespace ECS.Systems {
         }
         
         void EnableUnitsMovement(ref NativeArray<RaycastHit> hits) {
-            foreach (var(movableUnitTag, entity) in SystemAPI.Query<RefRO<MovableUnit>>().WithEntityAccess()) {
-                TargetPosition targetPosition = SystemAPI.GetComponent<TargetPosition>(entity);
-                targetPosition.Target = hits[0].Position;
-                SystemAPI.SetComponent(entity, targetPosition);
+            foreach (var (movableUnitTag, selected, entity) in SystemAPI.Query<RefRO<MovableUnit>, RefRO<Selected>>()
+                     .WithEntityAccess()) {
+                RefRW<TargetPosition> targetPosition = SystemAPI.GetComponentRW<TargetPosition>(entity);
+                targetPosition.ValueRW.Target = hits[0].Position;
+                //SystemAPI.SetComponent(entity, targetPosition);
                 if (!SystemAPI.IsComponentEnabled<TargetPosition>(entity))
                     SystemAPI.SetComponentEnabled<TargetPosition>(entity, true);
             }
