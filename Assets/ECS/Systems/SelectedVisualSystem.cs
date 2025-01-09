@@ -16,6 +16,10 @@ namespace ECS.Systems {
                 if (SystemAPI.IsComponentEnabled<MaterialMeshInfo>(selected.ValueRO.SelectedVisual)) continue;
                 SystemAPI.SetComponentEnabled<MaterialMeshInfo>(selected.ValueRO.SelectedVisual, true);
             }
+            foreach (RefRO<Selected> selected in SystemAPI.Query<RefRO<Selected>>().WithDisabled<Selected>()) {
+                if (!SystemAPI.IsComponentEnabled<MaterialMeshInfo>(selected.ValueRO.SelectedVisual)) continue;
+                SystemAPI.SetComponentEnabled<MaterialMeshInfo>(selected.ValueRO.SelectedVisual, false);
+            }
         }
 
         [BurstCompile]
