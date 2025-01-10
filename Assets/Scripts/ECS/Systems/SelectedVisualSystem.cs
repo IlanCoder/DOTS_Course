@@ -5,9 +5,9 @@ using Unity.Rendering;
 
 namespace ECS.Systems {
     public partial struct SelectedVisualSystem : ISystem {
+        
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
-            
         }
 
         [BurstCompile]

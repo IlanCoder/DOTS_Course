@@ -8,7 +8,6 @@ using Unity.Mathematics;
 namespace ECS.Systems {
     public partial struct UnitMoverSystem : ISystem {
         
-        
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
             

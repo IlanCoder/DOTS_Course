@@ -1,4 +1,5 @@
 ﻿using ECS.Aspects;
+using ECS.Authoring;
 using Unity.Burst;
 using Unity.Entities;
 
