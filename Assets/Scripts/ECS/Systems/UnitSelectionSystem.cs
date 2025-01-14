@@ -1,10 +1,12 @@
 ﻿using System;
 using ECS.Authoring;
-using ECS.Tags;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Physics;
 using Unity.Transforms;
+using Unity.VisualScripting;
 using UnityEngine;
+using Unit = ECS.Tags.Unit;
 
 namespace ECS.Systems {
     [BurstCompile]
@@ -12,7 +14,7 @@ namespace ECS.Systems {
         public static UnitSelectionSystem Instance { get; private set;}
 
         Camera _camera;
-        
+        UnityEngine.Ray ray;
         Vector2 _selectionStartPos;
         
     #region Events
@@ -23,19 +25,27 @@ namespace ECS.Systems {
         [BurstCompile]
         protected override void OnCreate() {
             Instance ??= this;
+            EntityQuery entityQuery = EntityManager.CreateEntityQuery(typeof(Selected), typeof(Unit));
+            RequireForUpdate(entityQuery);
             _camera = Camera.main;
         }
 
         [BurstCompile]
+        protected override void OnStartRunning() {
+            ReadInputSystem.Instance.OnSelectSingle += Handle_SelectSingleUnit;
+            ReadInputSystem.Instance.OnSelectAreaStart += Hande_SelectAreaStart;
+            ReadInputSystem.Instance.OnSelectAreaEnd += Handle_SelectMultipleUnits;
+        }
+
+        [BurstCompile]
         protected override void OnUpdate() {
-            if (Input.GetMouseButtonDown(0)) {
-                _selectionStartPos = Input.mousePosition;
-                OnSelectionStart?.Invoke(this, EventArgs.Empty);
-            }
-            else if (Input.GetMouseButtonUp(0)) {
-                SelectNewUnits();
-                OnSelectionEnd?.Invoke(this, EventArgs.Empty);
-            }
+        }
+        
+        [BurstCompile]
+        protected override void OnStopRunning() {
+            ReadInputSystem.Instance.OnSelectSingle -= Handle_SelectSingleUnit;
+            ReadInputSystem.Instance.OnSelectAreaStart -= Hande_SelectAreaStart;
+            ReadInputSystem.Instance.OnSelectAreaEnd -= Handle_SelectMultipleUnits;
         }
         
         [BurstCompile]
@@ -70,6 +80,34 @@ namespace ECS.Systems {
                 width = topRightCorner.x - lowerLeftCorner.x,
                 height = topRightCorner.y - lowerLeftCorner.y,
             };
+        }
+
+        [BurstCompile]
+        void Handle_SelectSingleUnit(object sender, EventArgs args) {
+            CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
+            ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastInput raycastInput = new RaycastInput {
+                Start = ray.origin,
+                End = ray.GetPoint(1000f),
+                Filter = new CollisionFilter() {
+                    BelongsTo = ~0u,
+                    CollidesWith = (uint)LayerMask.GetMask("Unit")
+                }
+            };
+            if (!collisionWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit hit)) return;
+            Entity entityHit = hit.Entity;
+            if (!SystemAPI.HasComponent<Selected>(entityHit)) return;
+            SystemAPI.SetComponentEnabled<Selected>(entityHit, !SystemAPI.IsComponentEnabled<Selected>(entityHit));
+        }
+
+        void Hande_SelectAreaStart(object sender, EventArgs e) {
+            _selectionStartPos = Input.mousePosition;
+            OnSelectionStart?.Invoke(this, EventArgs.Empty);
+        }
+        
+        void Handle_SelectMultipleUnits(object sender, SelectAreaArgs e) {
+            if (!e.Canceled) SelectNewUnits();
+            OnSelectionEnd?.Invoke(this, EventArgs.Empty);
         }
     }
 }
