@@ -14,7 +14,6 @@ namespace ECS.Systems {
         Camera _camera;
         
         Vector2 _selectionStartPos;
-        Vector2 _selectionEndPos;
         
     #region Events
         public event EventHandler OnSelectionStart;
@@ -34,7 +33,6 @@ namespace ECS.Systems {
                 OnSelectionStart?.Invoke(this, EventArgs.Empty);
             }
             else if (Input.GetMouseButtonUp(0)) {
-                _selectionEndPos = Input.mousePosition;
                 SelectNewUnits();
                 OnSelectionEnd?.Invoke(this, EventArgs.Empty);
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using ECS.Authoring;
+﻿using ECS.Authoring;
 using ECS.Jobs;
 using ECS.Tags;
 using Unity.Burst;
