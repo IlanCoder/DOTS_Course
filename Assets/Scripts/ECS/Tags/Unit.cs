@@ -1,7 +1,5 @@
 ﻿using Unity.Entities;
 
 namespace ECS.Tags {
-    public struct Unit : IComponentData {
-        
-    }
+    public struct Unit : IComponentData {}
 }

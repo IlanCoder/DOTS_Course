@@ -507,7 +507,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""id"": ""c95b2375-e6d9-4b88-9c4c-c5e76515df4b"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -543,7 +543,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""id"": ""3c7022bf-7922-4f7c-a998-c437916075ad"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""SlowTap,Tap"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -590,24 +590,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SelectArea"",
-                    ""type"": ""Button"",
-                    ""id"": ""f41e5165-e9d1-4a85-b68a-ce00768124d4"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""SlowTap"",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""SelectSingle"",
-                    ""type"": ""Button"",
-                    ""id"": ""c8be6ab0-4b37-41f1-ae12-b9a5bdc63743"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Tap"",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1028,28 +1010,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c3639bfa-c100-41f8-8f13-f66ac5d997e6"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""SelectArea"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3e5ca9cd-fa99-4d76-bb61-52cf2d0a67ea"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""SelectSingle"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1140,8 +1100,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        m_UI_SelectArea = m_UI.FindAction("SelectArea", throwIfNotFound: true);
-        m_UI_SelectSingle = m_UI.FindAction("SelectSingle", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1329,8 +1287,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_ScrollWheel;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
-    private readonly InputAction m_UI_SelectArea;
-    private readonly InputAction m_UI_SelectSingle;
     public struct UIActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1345,8 +1301,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @ScrollWheel => m_Wrapper.m_UI_ScrollWheel;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
-        public InputAction @SelectArea => m_Wrapper.m_UI_SelectArea;
-        public InputAction @SelectSingle => m_Wrapper.m_UI_SelectSingle;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1386,12 +1340,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
-            @SelectArea.started += instance.OnSelectArea;
-            @SelectArea.performed += instance.OnSelectArea;
-            @SelectArea.canceled += instance.OnSelectArea;
-            @SelectSingle.started += instance.OnSelectSingle;
-            @SelectSingle.performed += instance.OnSelectSingle;
-            @SelectSingle.canceled += instance.OnSelectSingle;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1426,12 +1374,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
-            @SelectArea.started -= instance.OnSelectArea;
-            @SelectArea.performed -= instance.OnSelectArea;
-            @SelectArea.canceled -= instance.OnSelectArea;
-            @SelectSingle.started -= instance.OnSelectSingle;
-            @SelectSingle.performed -= instance.OnSelectSingle;
-            @SelectSingle.canceled -= instance.OnSelectSingle;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1518,7 +1460,5 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
-        void OnSelectArea(InputAction.CallbackContext context);
-        void OnSelectSingle(InputAction.CallbackContext context);
     }
 }

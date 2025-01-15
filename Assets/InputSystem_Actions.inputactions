@@ -485,7 +485,7 @@
                     "id": "c95b2375-e6d9-4b88-9c4c-c5e76515df4b",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -521,7 +521,7 @@
                     "id": "3c7022bf-7922-4f7c-a998-c437916075ad",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "SlowTap,Tap",
                     "initialStateCheck": true
                 },
                 {
@@ -568,24 +568,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "SelectArea",
-                    "type": "Button",
-                    "id": "f41e5165-e9d1-4a85-b68a-ce00768124d4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "SlowTap",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "SelectSingle",
-                    "type": "Button",
-                    "id": "c8be6ab0-4b37-41f1-ae12-b9a5bdc63743",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Tap",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1004,28 +986,6 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c3639bfa-c100-41f8-8f13-f66ac5d997e6",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectArea",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3e5ca9cd-fa99-4d76-bb61-52cf2d0a67ea",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectSingle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

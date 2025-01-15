@@ -1,4 +1,5 @@
-﻿using ECS.Authoring;
+﻿using System;
+using ECS.Authoring;
 using ECS.Jobs;
 using ECS.Tags;
 using Unity.Burst;
@@ -20,21 +21,18 @@ namespace ECS.Systems {
         protected override void OnCreate() {
             _camera = Camera.main;
         }
+
+        [BurstCompile]
+        protected override void OnStartRunning() {
+            ReadInputSystem.Instance.OnSelectPosition += Handle_TargetPositionRayCast;
+        }
         
         [BurstCompile]
-        protected override void OnUpdate() {
-            if (!Input.GetMouseButtonDown(1)) return;
-            RaycastInput raycastInput = CreateRaycastInput();
-            NativeArray<RaycastHit> hits = new NativeArray<RaycastHit>(1, Allocator.TempJob);
-            JobHandle jobHandle = new RaycastJob {
-                CollisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld,
-                RayInput = raycastInput,
-                Results = hits
-            }.Schedule();
-            jobHandle.Complete();
-            
-            EnableUnitsMovement(ref hits);
-            hits.Dispose();
+        protected override void OnUpdate() { }
+
+        [BurstCompile]
+        protected override void OnStopRunning() {
+            ReadInputSystem.Instance.OnSelectPosition -= Handle_TargetPositionRayCast;
         }
 
         [BurstCompile]
@@ -63,6 +61,21 @@ namespace ECS.Systems {
                 if (!SystemAPI.IsComponentEnabled<TargetPosition>(entity))
                     SystemAPI.SetComponentEnabled<TargetPosition>(entity, true);
             }
+        }
+
+        [BurstCompile]
+        void Handle_TargetPositionRayCast(object sender, EventArgs e) {
+            RaycastInput raycastInput = CreateRaycastInput();
+            NativeArray<RaycastHit> hits = new NativeArray<RaycastHit>(1, Allocator.TempJob);
+            JobHandle jobHandle = new RaycastJob {
+                CollisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld,
+                RayInput = raycastInput,
+                Results = hits
+            }.Schedule();
+            jobHandle.Complete();
+            
+            EnableUnitsMovement(ref hits);
+            hits.Dispose();
         }
     }
 }

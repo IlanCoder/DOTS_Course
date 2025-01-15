@@ -1,11 +1,11 @@
 ﻿using System;
 using Unity.Burst;
 using Unity.Entities;
-using Unity.VisualScripting;
-using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 namespace ECS.Systems {
     [BurstCompile]
+    [UpdateInGroup(typeof(InitializationSystemGroup), OrderLast = true)]
     public partial class ReadInputSystem : SystemBase {
         InputSystem_Actions _inputs;
         public static ReadInputSystem Instance;
@@ -14,6 +14,7 @@ namespace ECS.Systems {
         public event EventHandler OnSelectSingle;
         public event EventHandler OnSelectAreaStart;
         public event EventHandler<SelectAreaArgs> OnSelectAreaEnd;
+        public event EventHandler OnSelectPosition;
         #endregion
         
         
@@ -22,16 +23,18 @@ namespace ECS.Systems {
         protected override void OnCreate() {
             Instance ??= this;
             _inputs ??= new InputSystem_Actions();
-            _inputs.UI.SelectSingle.performed += i => { OnSelectSingle?.Invoke(this,EventArgs.Empty);};
-            _inputs.UI.SelectArea.started += i => {
-                OnSelectAreaStart?.Invoke(this, EventArgs.Empty);
+            _inputs.UI.Click.started += i => {
+                if (i.interaction is SlowTapInteraction) OnSelectAreaStart?.Invoke(this, EventArgs.Empty);
             };
-            _inputs.UI.SelectArea.performed += i => {
-                OnSelectAreaEnd?.Invoke(this, new SelectAreaArgs { Canceled = false});
+            _inputs.UI.Click.performed += i => {
+                if (i.interaction is SlowTapInteraction)
+                    OnSelectAreaEnd?.Invoke(this, new SelectAreaArgs { Canceled = false });
+                else OnSelectSingle?.Invoke(this,EventArgs.Empty);
             };
-            _inputs.UI.SelectArea.canceled += i => {
+            _inputs.UI.Click.canceled += i => {
                 OnSelectAreaEnd?.Invoke(this, new SelectAreaArgs { Canceled = true});
             };
+            _inputs.UI.RightClick.performed += i=> OnSelectPosition?.Invoke(this, EventArgs.Empty);
             _inputs.UI.Enable();
         }
 
