@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Burst;
 using Unity.Entities;
+using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
 
 namespace ECS.Systems {
@@ -8,7 +9,6 @@ namespace ECS.Systems {
     [UpdateInGroup(typeof(InitializationSystemGroup), OrderLast = true)]
     public partial class ReadInputSystem : SystemBase {
         InputSystem_Actions _inputs;
-        public static ReadInputSystem Instance;
         
         #region Events
         public event EventHandler OnSelectSingle;
@@ -17,11 +17,8 @@ namespace ECS.Systems {
         public event EventHandler OnSelectPosition;
         #endregion
         
-        
-        
         [BurstCompile]
         protected override void OnCreate() {
-            Instance ??= this;
             _inputs ??= new InputSystem_Actions();
             _inputs.UI.Click.started += i => {
                 if (i.interaction is SlowTapInteraction) OnSelectAreaStart?.Invoke(this, EventArgs.Empty);
@@ -34,7 +31,9 @@ namespace ECS.Systems {
             _inputs.UI.Click.canceled += i => {
                 OnSelectAreaEnd?.Invoke(this, new SelectAreaArgs { Canceled = true});
             };
-            _inputs.UI.RightClick.performed += i=> OnSelectPosition?.Invoke(this, EventArgs.Empty);
+            _inputs.UI.RightClick.performed += i=> {
+                if(i.interaction is PressInteraction) OnSelectPosition?.Invoke(this, EventArgs.Empty);
+            };
             _inputs.UI.Enable();
         }
 

@@ -7,7 +7,7 @@ namespace ECS.Systems {
     public partial struct PhysicsMassSetupSystem : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
-            
+            state.RequireForUpdate<RigidbodyLocks>();
         }
 
         [BurstCompile]

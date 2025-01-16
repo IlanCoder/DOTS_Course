@@ -1,4 +1,5 @@
 ﻿using ECS.Authoring;
+using ECS.Tags;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Rendering;
@@ -8,6 +9,7 @@ namespace ECS.Systems {
         
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
+            state.RequireForUpdate<Selected>();
         }
 
         [BurstCompile]

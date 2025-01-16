@@ -32,20 +32,21 @@ namespace ECS.Systems {
 
         [BurstCompile]
         protected override void OnStartRunning() {
-            ReadInputSystem.Instance.OnSelectSingle += Handle_SelectSingleUnit;
-            ReadInputSystem.Instance.OnSelectAreaStart += Hande_SelectAreaStart;
-            ReadInputSystem.Instance.OnSelectAreaEnd += Handle_SelectMultipleUnits;
+            ReadInputSystem inputSystem = World.GetExistingSystemManaged<ReadInputSystem>();
+            inputSystem.OnSelectSingle += Handle_SelectSingleUnit;
+            inputSystem.OnSelectAreaStart += Hande_SelectAreaStart;
+            inputSystem.OnSelectAreaEnd += Handle_SelectMultipleUnits;
         }
 
         [BurstCompile]
-        protected override void OnUpdate() {
-        }
+        protected override void OnUpdate() { }
         
         [BurstCompile]
         protected override void OnStopRunning() {
-            ReadInputSystem.Instance.OnSelectSingle -= Handle_SelectSingleUnit;
-            ReadInputSystem.Instance.OnSelectAreaStart -= Hande_SelectAreaStart;
-            ReadInputSystem.Instance.OnSelectAreaEnd -= Handle_SelectMultipleUnits;
+            ReadInputSystem inputSystem = World.GetExistingSystemManaged<ReadInputSystem>();
+            inputSystem.OnSelectSingle -= Handle_SelectSingleUnit;
+            inputSystem.OnSelectAreaStart -= Hande_SelectAreaStart;
+            inputSystem.OnSelectAreaEnd -= Handle_SelectMultipleUnits;
         }
         
         [BurstCompile]
