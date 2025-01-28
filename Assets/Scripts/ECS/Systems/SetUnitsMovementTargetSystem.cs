@@ -1,7 +1,6 @@
-﻿using System;
+﻿using ECS.Aspects;
 using ECS.Authoring;
 using ECS.Jobs;
-using ECS.Tags;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -11,6 +10,7 @@ using Unity.Physics;
 using UnityEngine;
 using Ray = UnityEngine.Ray;
 using RaycastHit = Unity.Physics.RaycastHit;
+using Unit = ECS.Tags.Unit;
 
 namespace ECS.Systems {
     [BurstCompile]
@@ -25,24 +25,13 @@ namespace ECS.Systems {
         [BurstCompile]
         protected override void OnCreate() {
             _camera = Camera.main;
-            
+            RequireForUpdate<OnSelectPosition>();
         }
 
         [BurstCompile]
-        protected override void OnStartRunning() {
-            World.GetExistingSystemManaged<ReadInputSystem>().OnSelectPosition += Handle_TargetPositionRayCast;
-        }
-        
-        [BurstCompile]
-        protected override void OnUpdate() { }
-
-        [BurstCompile]
-        protected override void OnStopRunning() {
-            World.GetExistingSystemManaged<ReadInputSystem>().OnSelectPosition -= Handle_TargetPositionRayCast;
-        }
-
-        [BurstCompile]
-        void Handle_TargetPositionRayCast(object sender, EventArgs e) {
+        protected override void OnUpdate() {
+            OnSelectPosition onSelectPosition = SystemAPI.GetSingleton<OnSelectPosition>();
+            if (!onSelectPosition.Called) return;
             CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
             _ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastInput raycastInput = new RaycastInput {
@@ -55,6 +44,13 @@ namespace ECS.Systems {
             };
             if (!collisionWorld.CastRay(raycastInput, out RaycastHit closestHit)) return;
             SetUnitsTargetPosition(closestHit.Position);
+            Entity inputEntity = SystemAPI.GetSingletonEntity<OnSelectPosition>();
+            InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(inputEntity);
+            inputEventsAspect.OnSelectPositionCalled = false;
+        }
+
+        [BurstCompile]
+        protected override void OnStopRunning() {
         }
 
         [BurstCompile]

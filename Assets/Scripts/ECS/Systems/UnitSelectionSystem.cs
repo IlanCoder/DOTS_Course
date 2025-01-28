@@ -2,9 +2,9 @@
 using ECS.Authoring;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
-using Unity.VisualScripting;
 using UnityEngine;
 using Unit = ECS.Tags.Unit;
 
@@ -32,10 +32,7 @@ namespace ECS.Systems {
 
         [BurstCompile]
         protected override void OnStartRunning() {
-            ReadInputSystem inputSystem = World.GetExistingSystemManaged<ReadInputSystem>();
-            inputSystem.OnSelectSingle += Handle_SelectSingleUnit;
-            inputSystem.OnSelectAreaStart += Hande_SelectAreaStart;
-            inputSystem.OnSelectAreaEnd += Handle_SelectMultipleUnits;
+
         }
 
         [BurstCompile]
@@ -43,10 +40,7 @@ namespace ECS.Systems {
         
         [BurstCompile]
         protected override void OnStopRunning() {
-            ReadInputSystem inputSystem = World.GetExistingSystemManaged<ReadInputSystem>();
-            inputSystem.OnSelectSingle -= Handle_SelectSingleUnit;
-            inputSystem.OnSelectAreaStart -= Hande_SelectAreaStart;
-            inputSystem.OnSelectAreaEnd -= Handle_SelectMultipleUnits;
+            
         }
         
         [BurstCompile]
@@ -66,15 +60,15 @@ namespace ECS.Systems {
         }
 
         [BurstCompile]
-        public Rect GetSelectionRect() {
+        Rect GetSelectionRect() {
             Vector2 mousePos = Input.mousePosition;
             Vector2 lowerLeftCorner = new Vector2 {
-                x = MathF.Min(mousePos.x, _selectionStartPos.x),
-                y = MathF.Min(mousePos.y, _selectionStartPos.y)
+                x = math.min(mousePos.x, _selectionStartPos.x),
+                y = math.min(mousePos.y, _selectionStartPos.y)
             };
             Vector2 topRightCorner = new Vector2 {
-                x = MathF.Max(mousePos.x, _selectionStartPos.x),
-                y = MathF.Max(mousePos.y, _selectionStartPos.y)
+                x = math.max(mousePos.x, _selectionStartPos.x),
+                y = math.max(mousePos.y, _selectionStartPos.y)
             };
             return new Rect {
                 position = lowerLeftCorner,
@@ -106,9 +100,9 @@ namespace ECS.Systems {
             OnSelectionStart?.Invoke(this, EventArgs.Empty);
         }
         
-        void Handle_SelectMultipleUnits(object sender, SelectAreaArgs e) {
+        /*void Handle_SelectMultipleUnits(object sender, SelectAreaArgs e) {
             if (!e.Canceled) SelectNewUnits();
             OnSelectionEnd?.Invoke(this, EventArgs.Empty);
-        }
+        }*/
     }
 }
