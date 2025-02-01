@@ -9,7 +9,8 @@ namespace ECS.Authoring {
             public override void Bake(SelectedAuth authoring) {
                 Entity entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new Selected {
-                    SelectedVisual = GetEntity(authoring.selectedVisual, TransformUsageFlags.None)
+                    SelectedVisual = GetEntity(authoring.selectedVisual, TransformUsageFlags.None),
+                    OnDeselected = true
                 });
                 SetComponentEnabled<Selected>(entity, false);
             }
@@ -18,5 +19,7 @@ namespace ECS.Authoring {
 
     public struct Selected : IComponentData, IEnableableComponent {
         public Entity SelectedVisual;
+        public bool OnSelected;
+        public bool OnDeselected;
     }
 }

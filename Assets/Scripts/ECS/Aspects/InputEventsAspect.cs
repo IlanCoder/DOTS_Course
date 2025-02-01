@@ -11,7 +11,6 @@ namespace ECS.Aspects {
             get => _onSelectAreaStart.ValueRO.Called;
             set => _onSelectAreaStart.ValueRW.Called = value;
         }
-        
         public void OnSelectAreaEndCalled (bool cancelled){
             _onSelectAreaEnd.ValueRW.Called = true;
             _onSelectAreaEnd.ValueRW.Cancelled = cancelled;
@@ -20,10 +19,15 @@ namespace ECS.Aspects {
             get => _onSelectSingle.ValueRO.Called;
             set => _onSelectSingle.ValueRW.Called = value;
         }
-        
         public bool OnSelectPositionCalled {
             get => _onSelectPosition.ValueRO.Called;
             set => _onSelectPosition.ValueRW.Called = value;
+        }
+        public void ResetInputCalls() {
+            _onSelectAreaStart.ValueRW.Called = false;
+            _onSelectAreaEnd.ValueRW.Called = false;
+            _onSelectSingle.ValueRW.Called = false;
+            _onSelectPosition.ValueRW.Called = false;
         }
     }
     

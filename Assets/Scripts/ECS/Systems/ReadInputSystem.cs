@@ -17,23 +17,24 @@ namespace ECS.Systems {
 
         protected override void OnStartRunning() {
             Entity entity = SystemAPI.GetSingletonEntity<InputEventsAspect>();
-            InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(entity);
             _inputs ??= new InputSystem_Actions();
-            // _inputs.UI.Click.started += i => {
-            //     if (i.interaction is SlowTapInteraction) inputEventsAspect.OnSelectAreaStartCalled = true;
-            // };
-            // _inputs.UI.Click.performed += i => {
-            //     if (i.interaction is SlowTapInteraction) {
-            //         inputEventsAspect.OnSelectAreaEndCalled(false);
-            //     }
-            //     else inputEventsAspect.OnSelectSingleCalled = true;
-            // };
-            // _inputs.UI.Click.canceled += i => {
-            //     inputEventsAspect.OnSelectAreaEndCalled(true);
-            // };
+            _inputs.UI.Click.started += i => {
+                InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(entity);
+                if (i.interaction is SlowTapInteraction) inputEventsAspect.OnSelectAreaStartCalled = true;
+            };
+            _inputs.UI.Click.performed += i => {
+                InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(entity);
+                if (i.interaction is SlowTapInteraction) {
+                    inputEventsAspect.OnSelectAreaEndCalled(false);
+                }
+                else inputEventsAspect.OnSelectSingleCalled = true;
+            };
+            _inputs.UI.Click.canceled += i => {
+                InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(entity);
+                inputEventsAspect.OnSelectAreaEndCalled(true);
+            };
             _inputs.UI.RightClick.performed += i=> {
                 if (i.interaction is PressInteraction) {
-                    Entity entity = SystemAPI.GetSingletonEntity<InputEventsAspect>();
                     InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(entity);
                     inputEventsAspect.OnSelectPositionCalled = true;
                 }

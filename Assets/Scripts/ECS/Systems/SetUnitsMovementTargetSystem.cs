@@ -21,7 +21,6 @@ namespace ECS.Systems {
         readonly float _rowOffset = 2.2f;
         JobHandle _positionsJobHandle;
         
-        
         [BurstCompile]
         protected override void OnCreate() {
             _camera = Camera.main;
@@ -31,7 +30,11 @@ namespace ECS.Systems {
         [BurstCompile]
         protected override void OnUpdate() {
             OnSelectPosition onSelectPosition = SystemAPI.GetSingleton<OnSelectPosition>();
-            if (!onSelectPosition.Called) return;
+            if (onSelectPosition.Called) CastRay();
+        }
+        
+        [BurstCompile]
+        void CastRay() {
             CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
             _ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastInput raycastInput = new RaycastInput {
@@ -44,9 +47,6 @@ namespace ECS.Systems {
             };
             if (!collisionWorld.CastRay(raycastInput, out RaycastHit closestHit)) return;
             SetUnitsTargetPosition(closestHit.Position);
-            Entity inputEntity = SystemAPI.GetSingletonEntity<OnSelectPosition>();
-            InputEventsAspect inputEventsAspect = SystemAPI.GetAspect<InputEventsAspect>(inputEntity);
-            inputEventsAspect.OnSelectPositionCalled = false;
         }
 
         [BurstCompile]

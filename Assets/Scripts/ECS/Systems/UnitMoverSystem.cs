@@ -3,11 +3,10 @@ using ECS.Authoring;
 using ECS.Jobs;
 using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
+using Unity.Jobs;
 
 namespace ECS.Systems {
     public partial struct UnitMoverSystem : ISystem {
-        
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
             state.RequireForUpdate<MoveSpeed>();
@@ -20,10 +19,10 @@ namespace ECS.Systems {
                 unit.StopUnit();
                 SystemAPI.SetComponentEnabled<TargetPosition>(entity, false);
             }
-            UnitMoverJob unitMoverJob = new UnitMoverJob {
+            JobHandle unitMoverJob = new UnitMoverJob {
                 DeltaTime = SystemAPI.Time.DeltaTime
-            };
-            unitMoverJob.ScheduleParallel();
+            }.ScheduleParallel(state.Dependency);
+            state.Dependency = unitMoverJob;
         }
 
         [BurstCompile]
