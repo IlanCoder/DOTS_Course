@@ -1,6 +1,8 @@
 ﻿using ECS.Authoring;
+using ECS.Jobs;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Jobs;
 
 namespace ECS.Systems.Selection {
     [UpdateAfter(typeof(UnitSelectionSystem))]
@@ -12,11 +14,8 @@ namespace ECS.Systems.Selection {
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            foreach (var (selected, entity) in SystemAPI.Query<RefRO<Selected>>().WithPresent<Selected>()
-                     .WithEntityAccess()) {
-                if(selected.ValueRO.OnSelected) SystemAPI.SetComponentEnabled<Selected>(entity, true);
-                else if(selected.ValueRO.OnDeselected) SystemAPI.SetComponentEnabled<Selected>(entity, false);
-            }
+            JobHandle jobHandle = new SelectedEnablerJob().ScheduleParallel(state.Dependency);
+            state.Dependency = jobHandle;
         }
 
         [BurstCompile]

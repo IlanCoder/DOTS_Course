@@ -1,25 +1,27 @@
 ﻿using ECS.Authoring;
+using ECS.Jobs;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Rendering;
 
 namespace ECS.Systems.Selection {
     [UpdateAfter(typeof(UnitSelectionSystem))]
     public partial struct SelectedVisualSystem : ISystem {
-        
+        ComponentLookup<MaterialMeshInfo> meshInfoLookup;
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
             state.RequireForUpdate<Selected>();
+            meshInfoLookup = state.GetComponentLookup<MaterialMeshInfo>();
         }
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            foreach (RefRO<Selected> selected in SystemAPI.Query<RefRO<Selected>>().WithPresent<Selected>()) {
-                if (selected.ValueRO.OnSelected)
-                    SystemAPI.SetComponentEnabled<MaterialMeshInfo>(selected.ValueRO.SelectedVisual, true);
-                else if (selected.ValueRO.OnDeselected)
-                    SystemAPI.SetComponentEnabled<MaterialMeshInfo>(selected.ValueRO.SelectedVisual, false);
-            }
+            meshInfoLookup.Update(ref state);
+            JobHandle jobHandle = new EnableSelectVisualJob {
+                MeshInfoLookup = meshInfoLookup
+            }.Schedule(state.Dependency);
+            state.Dependency = jobHandle;
         }
 
         [BurstCompile]

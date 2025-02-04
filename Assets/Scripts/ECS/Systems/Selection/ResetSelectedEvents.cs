@@ -1,6 +1,8 @@
 ﻿using ECS.Authoring;
+using ECS.Jobs;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Jobs;
 
 namespace ECS.Systems.Selection {
     [UpdateInGroup(typeof(LateSimulationSystemGroup))]
@@ -12,10 +14,8 @@ namespace ECS.Systems.Selection {
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            foreach (RefRW<Selected> selected in SystemAPI.Query<RefRW<Selected>>().WithPresent<Selected>()) {
-                selected.ValueRW.OnSelected = false;
-                selected.ValueRW.OnDeselected = false;
-            }
+            JobHandle handle = new ResetSelectedJob().ScheduleParallel(state.Dependency);
+            state.Dependency = handle;
         }
 
         [BurstCompile]
