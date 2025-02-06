@@ -1,5 +1,4 @@
 using Unity.Entities;
-using Unity.Physics;
 using UnityEngine;
 
 namespace ECS.Authoring {
@@ -20,5 +19,4 @@ namespace ECS.Authoring {
         public float TranslateSpeed;
         public float RotateSpeed;
     }
-    
 }

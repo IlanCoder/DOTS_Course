@@ -2,13 +2,13 @@
 using ECS.Aspects;
 using ECS.Authoring;
 using ECS.Jobs;
+using Statics;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Physics;
 using UnityEngine;
-using Unit = ECS.Tags.Unit;
 
 namespace ECS.Systems.Selection {
     [BurstCompile]
@@ -52,7 +52,7 @@ namespace ECS.Systems.Selection {
                 End = ray.GetPoint(1000f),
                 Filter = new CollisionFilter() {
                     BelongsTo = ~0u,
-                    CollidesWith = (uint)LayerMask.GetMask("Unit")
+                    CollidesWith = ObjectLayers.UnitsLayer
                 }
             };
             callDeselectJob.Complete();
@@ -66,7 +66,7 @@ namespace ECS.Systems.Selection {
         
         [BurstCompile]
         void SelectMultipleUnits() {
-            JobHandle selectMultipleJob = new CallSelectMultipleJob {
+            Dependency = new CallSelectMultipleJob {
                 CamPos = _camera.transform.position,
                 CamForward = _camera.transform.forward,
                 CamProjMatrix = _camera.projectionMatrix,
@@ -76,7 +76,6 @@ namespace ECS.Systems.Selection {
                 PixelWidth = _camera.pixelWidth,
                 SelectionArea = GetSelectionRect()
             }.ScheduleParallel(Dependency);
-            Dependency = selectMultipleJob;
         }
 
         [BurstCompile]

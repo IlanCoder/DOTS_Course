@@ -19,10 +19,9 @@ namespace ECS.Systems {
                 unit.StopUnit();
                 SystemAPI.SetComponentEnabled<TargetPosition>(entity, false);
             }
-            JobHandle unitMoverJob = new UnitMoverJob {
+            state.Dependency = new UnitMoverJob {
                 DeltaTime = SystemAPI.Time.DeltaTime
             }.ScheduleParallel(state.Dependency);
-            state.Dependency = unitMoverJob;
         }
 
         [BurstCompile]

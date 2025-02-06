@@ -14,8 +14,7 @@ namespace ECS.Systems.Selection {
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            JobHandle jobHandle = new SelectedEnablerJob().ScheduleParallel(state.Dependency);
-            state.Dependency = jobHandle;
+            state.Dependency = new SelectedEnablerJob().ScheduleParallel(state.Dependency);
         }
 
         [BurstCompile]

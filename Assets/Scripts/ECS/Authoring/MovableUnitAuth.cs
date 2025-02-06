@@ -1,5 +1,4 @@
-﻿using ECS.Tags;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -14,7 +13,6 @@ namespace ECS.Authoring {
                     StoppingDistance = authoring.stoppingDistance,
                     Target = authoring.transform.position
                 });
-                AddComponent(entity, new Unit());
             }
         }
     }
@@ -23,4 +21,5 @@ namespace ECS.Authoring {
         public float StoppingDistance;
         public float3 Target;
     }
+
 }

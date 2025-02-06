@@ -1,6 +1,7 @@
 ﻿using ECS.Aspects;
 using ECS.Authoring;
 using ECS.Jobs;
+using Statics;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -10,7 +11,6 @@ using Unity.Physics;
 using UnityEngine;
 using Ray = UnityEngine.Ray;
 using RaycastHit = Unity.Physics.RaycastHit;
-using Unit = ECS.Tags.Unit;
 
 namespace ECS.Systems {
     [BurstCompile]
@@ -42,7 +42,7 @@ namespace ECS.Systems {
                 End = _ray.GetPoint(100),
                 Filter = new CollisionFilter {
                     BelongsTo = ~0u,
-                    CollidesWith = (uint)LayerMask.GetMask("Ground")
+                    CollidesWith = ObjectLayers.GroundLayer
                 }
             };
             if (!collisionWorld.CastRay(raycastInput, out RaycastHit closestHit)) return;

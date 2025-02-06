@@ -20,7 +20,7 @@ namespace ECS.Authoring {
         }
     }
 
-    public struct RigidbodyLocks : IComponentData, IEnableableComponent {
+    public struct RigidbodyLocks : IComponentData {
         public bool3 RotationLocks;
     }
 }

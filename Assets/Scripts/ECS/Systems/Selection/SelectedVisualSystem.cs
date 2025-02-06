@@ -18,10 +18,9 @@ namespace ECS.Systems.Selection {
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
             meshInfoLookup.Update(ref state);
-            JobHandle jobHandle = new EnableSelectVisualJob {
+            state.Dependency = new EnableSelectVisualJob {
                 MeshInfoLookup = meshInfoLookup
             }.Schedule(state.Dependency);
-            state.Dependency = jobHandle;
         }
 
         [BurstCompile]

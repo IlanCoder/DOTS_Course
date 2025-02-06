@@ -3,25 +3,15 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Physics;
 
-namespace ECS.Systems {
-    public partial struct PhysicsMassSetupSystem : ISystem {
-        [BurstCompile]
-        public void OnCreate(ref SystemState state) {
-            state.RequireForUpdate<RigidbodyLocks>();
-        }
-
+namespace ECS.Systems.Baking {
+    [WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
+    public partial struct PhysicsMassBakingSystem : ISystem {
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            foreach (var(rbLocks, physicsMass, entity) in SystemAPI
-                     .Query<RefRO<RigidbodyLocks>, RefRW<PhysicsMass>>().WithEntityAccess()) {
+            foreach (var(rbLocks, physicsMass) in SystemAPI
+                     .Query<RefRO<RigidbodyLocks>, RefRW<PhysicsMass>>()) {
                 SetRotationLocks(rbLocks.ValueRO, ref physicsMass.ValueRW);
-                SystemAPI.SetComponentEnabled<RigidbodyLocks>(entity, false);
             }
-        }
-        
-        [BurstCompile]
-        public void OnDestroy(ref SystemState state) {
-
         }
         
         [BurstCompile]
