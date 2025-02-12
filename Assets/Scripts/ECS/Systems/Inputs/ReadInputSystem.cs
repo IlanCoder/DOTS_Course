@@ -1,10 +1,9 @@
 ﻿using ECS.Aspects;
 using Unity.Burst;
 using Unity.Entities;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-namespace ECS.Systems {
+namespace ECS.Systems.Inputs {
     [BurstCompile]
     [UpdateInGroup(typeof(InitializationSystemGroup), OrderLast = true)]
     public partial class ReadInputSystem : SystemBase {

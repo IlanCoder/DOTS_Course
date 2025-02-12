@@ -2,12 +2,8 @@
 
 namespace Statics {
     public static class ObjectLayers {
-        public static uint UnitsLayer = (uint)LayerMask.GetMask("Unit");
-        public static uint GroundLayer = (uint)LayerMask.GetMask("Ground");
-    }
-
-    public static class LayerGroups {
-        public static int SoldierGroup = -1;
-        public static int ZombieGroup = -2;
+        public readonly static uint FriendlyLayer = (uint)LayerMask.GetMask("Friendly");
+        public readonly static uint ZombieLayer = (uint)LayerMask.GetMask("Zombie");
+        public readonly static uint GroundLayer = (uint)LayerMask.GetMask("Ground");
     }
 }

@@ -12,9 +12,17 @@ PrefabInstance:
       propertyPath: faction
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3401183459691502087, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4192707208734726448, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: m_Name
       value: Zombie_Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 4192707208734726448, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4422634259761899547, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

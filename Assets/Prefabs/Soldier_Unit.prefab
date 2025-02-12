@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1024156442689084945}
   - component: {fileID: 701503927991765937}
   - component: {fileID: 3330317047113851892}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Selected Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,9 +98,17 @@ PrefabInstance:
       propertyPath: faction
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3401183459691502087, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4192707208734726448, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: m_Name
       value: Soldier_Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 4192707208734726448, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5798373731512671337, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: faction

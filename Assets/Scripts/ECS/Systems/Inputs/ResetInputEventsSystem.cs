@@ -2,7 +2,7 @@
 using Unity.Burst;
 using Unity.Entities;
 
-namespace ECS.Systems {
+namespace ECS.Systems.Inputs {
     [UpdateInGroup(typeof(PresentationSystemGroup), OrderLast = true)]
     public partial struct ResetInputEventsSystem : ISystem {
         [BurstCompile]

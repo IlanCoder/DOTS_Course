@@ -52,7 +52,7 @@ namespace ECS.Systems.Selection {
                 End = ray.GetPoint(1000f),
                 Filter = new CollisionFilter() {
                     BelongsTo = ~0u,
-                    CollidesWith = ObjectLayers.UnitsLayer
+                    CollidesWith = ObjectLayers.FriendlyLayer
                 }
             };
             callDeselectJob.Complete();
