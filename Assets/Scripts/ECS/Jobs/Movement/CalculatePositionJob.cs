@@ -3,7 +3,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 
-namespace ECS.Jobs {
+namespace ECS.Jobs.Movement {
     [BurstCompile]
     public struct CalculatePositionsJob : IJobParallelFor {
         public NativeArray<float3> Positions;

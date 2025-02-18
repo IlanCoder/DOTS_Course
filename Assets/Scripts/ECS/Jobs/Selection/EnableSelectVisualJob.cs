@@ -3,7 +3,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Rendering;
 
-namespace ECS.Jobs {
+namespace ECS.Jobs.Selection {
     [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
     [BurstCompile]
     public partial struct EnableSelectVisualJob : IJobEntity {

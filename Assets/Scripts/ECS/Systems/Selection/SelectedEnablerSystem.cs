@@ -1,11 +1,13 @@
 ﻿using ECS.Authoring;
 using ECS.Jobs;
+using ECS.SystemGroups;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
+using SelectedEnablerJob = ECS.Jobs.Selection.SelectedEnablerJob;
 
 namespace ECS.Systems.Selection {
-    [UpdateAfter(typeof(UnitSelectionSystem))]
+    [UpdateInGroup(typeof(SelectionSystemGroup))]
     public partial struct SelectedEnablerSystem : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {

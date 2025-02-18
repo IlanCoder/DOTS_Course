@@ -1,11 +1,14 @@
 ﻿using ECS.Aspects;
 using ECS.Authoring;
 using ECS.Jobs;
+using ECS.SystemGroups;
 using Unity.Burst;
 using Unity.Entities;
-using Unity.Jobs;
+using UnitMoverJob = ECS.Jobs.Movement.UnitMoverJob;
 
-namespace ECS.Systems {
+namespace ECS.Systems.Movement {
+    [UpdateAfter(typeof(SetUnitsMovementTargetSystem))]
+    [UpdateInGroup(typeof(UnitsMovementSystemGroup))]
     public partial struct UnitMoverSystem : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {

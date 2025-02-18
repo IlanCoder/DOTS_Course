@@ -2,7 +2,7 @@
 using Unity.Burst;
 using Unity.Entities;
 
-namespace ECS.Jobs {
+namespace ECS.Jobs.Selection {
     [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
     [BurstCompile]
     public partial struct ResetSelectedJob : IJobEntity {

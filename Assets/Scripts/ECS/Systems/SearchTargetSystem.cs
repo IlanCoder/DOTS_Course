@@ -11,6 +11,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 namespace ECS.Systems {
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     public partial struct SearchTargetSystem : ISystem {
         EntityQuery _soldiers;
         EntityQuery _zombies;

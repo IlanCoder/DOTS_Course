@@ -1,6 +1,8 @@
 ﻿using ECS.Aspects;
 using ECS.Authoring;
 using ECS.Jobs;
+using ECS.Jobs.Movement;
+using ECS.SystemGroups;
 using Statics;
 using Unity.Burst;
 using Unity.Collections;
@@ -12,8 +14,9 @@ using UnityEngine;
 using Ray = UnityEngine.Ray;
 using RaycastHit = Unity.Physics.RaycastHit;
 
-namespace ECS.Systems {
+namespace ECS.Systems.Movement {
     [BurstCompile]
+    [UpdateInGroup(typeof(UnitsMovementSystemGroup))]
     public partial class SetUnitsMovementTargetSystem : SystemBase {
         Camera _camera;
         Ray _ray;
@@ -30,11 +33,13 @@ namespace ECS.Systems {
         [BurstCompile]
         protected override void OnUpdate() {
             OnSelectPosition onSelectPosition = SystemAPI.GetSingleton<OnSelectPosition>();
-            if (onSelectPosition.Called) CastRay();
+            if (!onSelectPosition.Called) return;
+            if(!CastRay(out RaycastHit hit)) return;
+            SetUnitsTargetPosition(hit.Position);
         }
         
         [BurstCompile]
-        void CastRay() {
+        bool CastRay(out RaycastHit closestHit) {
             CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
             _ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastInput raycastInput = new RaycastInput {
@@ -45,8 +50,7 @@ namespace ECS.Systems {
                     CollidesWith = ObjectLayers.GroundLayer
                 }
             };
-            if (!collisionWorld.CastRay(raycastInput, out RaycastHit closestHit)) return;
-            SetUnitsTargetPosition(closestHit.Position);
+            return collisionWorld.CastRay(raycastInput, out closestHit);
         }
 
         [BurstCompile]
@@ -56,7 +60,7 @@ namespace ECS.Systems {
         [BurstCompile]
         void SetUnitsTargetPosition(float3 targetPos) {
             EntityQueryDesc queryDesc = new EntityQueryDesc {
-                All= new ComponentType[] {typeof(Unit), typeof(Selected)}
+                All = new ComponentType[] {typeof(Unit), typeof(Selected)}
             };
             NativeArray<Entity> selectedUnits = GetEntityQuery(queryDesc).ToEntityArray(Allocator.TempJob);
             NativeArray<float3> positions =

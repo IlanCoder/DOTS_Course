@@ -1,9 +1,8 @@
 ﻿using ECS.Aspects;
-using ECS.Authoring;
 using Unity.Burst;
 using Unity.Entities;
 
-namespace ECS.Jobs {
+namespace ECS.Jobs.Movement {
     [BurstCompile]
     public partial struct UnitMoverJob : IJobEntity {
         public float DeltaTime;

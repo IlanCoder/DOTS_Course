@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-namespace ECS.Jobs {
+namespace ECS.Jobs.Selection {
     [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
     [BurstCompile]
     public partial struct CallSelectMultipleJob : IJobEntity {

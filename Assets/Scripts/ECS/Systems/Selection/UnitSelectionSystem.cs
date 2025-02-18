@@ -2,6 +2,7 @@
 using ECS.Aspects;
 using ECS.Authoring;
 using ECS.Jobs;
+using ECS.SystemGroups;
 using Statics;
 using Unity.Burst;
 using Unity.Entities;
@@ -9,9 +10,12 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Physics;
 using UnityEngine;
+using CallDeselectAllJob = ECS.Jobs.Selection.CallDeselectAllJob;
+using CallSelectMultipleJob = ECS.Jobs.Selection.CallSelectMultipleJob;
 
 namespace ECS.Systems.Selection {
     [BurstCompile]
+    [UpdateInGroup(typeof(SelectionSystemGroup), OrderFirst = true)]
     public partial class UnitSelectionSystem : SystemBase {
         public static UnitSelectionSystem Instance { get; private set;}
 

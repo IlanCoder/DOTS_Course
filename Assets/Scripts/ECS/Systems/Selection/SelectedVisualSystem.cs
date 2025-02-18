@@ -1,12 +1,14 @@
 ﻿using ECS.Authoring;
 using ECS.Jobs;
+using ECS.SystemGroups;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Rendering;
+using EnableSelectVisualJob = ECS.Jobs.Selection.EnableSelectVisualJob;
 
 namespace ECS.Systems.Selection {
-    [UpdateAfter(typeof(UnitSelectionSystem))]
+    [UpdateInGroup(typeof(SelectionSystemGroup))]
     public partial struct SelectedVisualSystem : ISystem {
         ComponentLookup<MaterialMeshInfo> meshInfoLookup;
         [BurstCompile]
