@@ -1,7 +1,9 @@
 ﻿using ECS.Authoring;
+using ECS.Jobs.Combat;
 using ECS.SystemGroups;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Jobs;
 
 namespace ECS.Systems.Combat {
     [UpdateInGroup(typeof(CombatSystemGroup))]
@@ -14,12 +16,8 @@ namespace ECS.Systems.Combat {
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            foreach (var (health, damage, entity) in SystemAPI.Query<RefRW<Health>, RefRW<DamageHealth>>()
-                     .WithEntityAccess()) {
-                health.ValueRW.CurrentHp -= damage.ValueRO.Damage;
-                damage.ValueRW.Damage = 0;
-                SystemAPI.SetComponentEnabled<DamageHealth>(entity, false);
-            }
+            JobHandle hpHandle = new DealHealthDamageJob().ScheduleParallel(state.Dependency);
+            state.Dependency = new DisableDamageComponentJob().ScheduleParallel(hpHandle);
         }
     }
 }
