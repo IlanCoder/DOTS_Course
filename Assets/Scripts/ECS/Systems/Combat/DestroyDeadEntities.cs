@@ -6,8 +6,8 @@ using Unity.Entities;
 using Unity.Rendering;
 
 namespace ECS.Systems.Combat {
-    [UpdateInGroup(typeof(DisableEntitiesSystemGroup))]
-    public partial struct DisableDeadEntities : ISystem {
+    [UpdateInGroup(typeof(DestroyEntitiesSystemGroup))]
+    public partial struct DestroyDeadEntities : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
             state.RequireForUpdate<Health>();
@@ -19,7 +19,7 @@ namespace ECS.Systems.Combat {
                 .CreateCommandBuffer(state.WorldUnmanaged);
             foreach (var(hp, entity) in SystemAPI.Query<RefRO<Health>>().WithEntityAccess()) {
                 if(hp.ValueRO.CurrentHp > 0) continue;
-                commandBuffer.AddComponent<Disabled>(entity);
+                commandBuffer.DestroyEntity(entity);
             }
         }
 

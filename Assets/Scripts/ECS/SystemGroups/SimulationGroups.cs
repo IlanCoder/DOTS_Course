@@ -12,5 +12,5 @@ namespace ECS.SystemGroups {
     public partial class CombatSystemGroup : ComponentSystemGroup { }
     
     [UpdateInGroup(typeof(LateSimulationSystemGroup))]
-    public partial class DisableEntitiesSystemGroup : ComponentSystemGroup { }
+    public partial class DestroyEntitiesSystemGroup : ComponentSystemGroup { }
 }
