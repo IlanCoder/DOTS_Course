@@ -7,4 +7,7 @@ namespace ECS.SystemGroups {
     
     [UpdateBefore(typeof(UnitsMovementSystemGroup))]
     public partial class SelectionSystemGroup : ComponentSystemGroup { }
+    
+    [UpdateAfter(typeof(TransformSystemGroup))]
+    public partial class CombatSystemGroup : ComponentSystemGroup { }
 }

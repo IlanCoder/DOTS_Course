@@ -1,8 +1,11 @@
 ﻿using ECS.Authoring;
+using ECS.Jobs.Combat;
+using ECS.SystemGroups;
 using Unity.Burst;
 using Unity.Entities;
 
-namespace ECS.Systems {
+namespace ECS.Systems.Combat {
+    [UpdateInGroup(typeof(CombatSystemGroup))]
     public partial struct ShootSystem : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
@@ -12,12 +15,10 @@ namespace ECS.Systems {
         
         [BurstCompile]
         public void OnUpdate(ref SystemState state) {
-            foreach (var (shoot, target) in SystemAPI.Query<RefRW<Shoot>, RefRO<Target>>()) {
-                shoot.ValueRW.CurrentCd -= SystemAPI.Time.DeltaTime;
-                if (shoot.ValueRO.CurrentCd > 0) continue;
-                shoot.ValueRW.CurrentCd = shoot.ValueRO.ShootCd;
-                
-            }
+            state.Dependency= new ShootTargetJob {
+                DeltaTime = SystemAPI.Time.DeltaTime,
+                DamageHealthLookup = SystemAPI.GetComponentLookup<DamageHealth>()
+            }.Schedule(state.Dependency);
         }
     }
 }
