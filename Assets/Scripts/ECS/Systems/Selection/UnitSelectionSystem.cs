@@ -1,7 +1,6 @@
 ﻿using System;
 using ECS.Aspects;
 using ECS.Authoring;
-using ECS.Jobs;
 using ECS.SystemGroups;
 using Statics;
 using Unity.Burst;
@@ -31,7 +30,7 @@ namespace ECS.Systems.Selection {
         [BurstCompile]
         protected override void OnCreate() {
             Instance ??= this;
-            EntityQuery entityQuery = EntityManager.CreateEntityQuery(typeof(Selected), typeof(Unit));
+            EntityQuery entityQuery = EntityManager.CreateEntityQuery(typeof(Selected),typeof(Unit));
             RequireForUpdate(entityQuery);
             _camera = Camera.main;
         }

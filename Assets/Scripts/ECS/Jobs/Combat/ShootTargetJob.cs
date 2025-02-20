@@ -11,13 +11,14 @@ namespace ECS.Jobs.Combat {
             shoot.CurrentCd -= DeltaTime;
             if (shoot.CurrentCd > 0) return;
             shoot.CurrentCd = shoot.ShootCd;
-            if (!DamageHealthLookup.HasComponent(target.Entity)) return;
+            
+            /*if (!DamageHealthLookup.HasComponent(target.Entity)) return;
             if (DamageHealthLookup.IsComponentEnabled(target.Entity)) {
                 DamageHealthLookup.GetRefRW(target.Entity).ValueRW.Damage += shoot.Damage;
                 return;
             }
             DamageHealthLookup.GetRefRW(target.Entity).ValueRW.Damage = shoot.Damage;
-            DamageHealthLookup.SetComponentEnabled(target.Entity, true);
+            DamageHealthLookup.SetComponentEnabled(target.Entity, true);*/
         }
     }
 }

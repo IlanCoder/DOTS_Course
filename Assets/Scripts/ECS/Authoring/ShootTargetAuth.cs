@@ -10,7 +10,7 @@ namespace ECS.Authoring {
                 Entity entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new Shoot {
                     ShootCd = authoring.shootCd,
-                    Damage = authoring.damage
+                    Damage = authoring.damage,
                 });
             }
         }

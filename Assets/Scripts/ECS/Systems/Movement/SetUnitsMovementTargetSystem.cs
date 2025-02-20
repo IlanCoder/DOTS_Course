@@ -3,6 +3,7 @@ using ECS.Authoring;
 using ECS.Jobs;
 using ECS.Jobs.Movement;
 using ECS.SystemGroups;
+using ECS.Tags;
 using Statics;
 using Unity.Burst;
 using Unity.Collections;

@@ -8,7 +8,6 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace ECS.Systems {
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -47,8 +46,7 @@ namespace ECS.Systems {
             searchTargetJobs.Complete();
             distanceHits.Dispose();
         }
-
-        [BurstCompile]
+        
         void SetEntityQueries(ref SystemState state) {
             EntityQueryDesc desc = new EntityQueryDesc {
                 All = new[] {
