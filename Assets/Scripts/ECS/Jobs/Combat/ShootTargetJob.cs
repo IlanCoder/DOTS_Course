@@ -1,24 +1,23 @@
 ﻿using ECS.Authoring;
+using ECS.SystemGroups;
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace ECS.Jobs.Combat {
     [BurstCompile]
+    [UpdateInGroup(typeof(CreateEntitiesSystemGroup))]
     public partial struct ShootTargetJob : IJobEntity {
-        public float DeltaTime;
-        public ComponentLookup<DamageHealth> DamageHealthLookup;
+        [ReadOnly] public float DeltaTime;
+        public EntityCommandBuffer Ecb;
+ 
         public void Execute(ref Shoot shoot, in Target target) {
             shoot.CurrentCd -= DeltaTime;
             if (shoot.CurrentCd > 0) return;
             shoot.CurrentCd = shoot.ShootCd;
-            
-            /*if (!DamageHealthLookup.HasComponent(target.Entity)) return;
-            if (DamageHealthLookup.IsComponentEnabled(target.Entity)) {
-                DamageHealthLookup.GetRefRW(target.Entity).ValueRW.Damage += shoot.Damage;
-                return;
-            }
-            DamageHealthLookup.GetRefRW(target.Entity).ValueRW.Damage = shoot.Damage;
-            DamageHealthLookup.SetComponentEnabled(target.Entity, true);*/
+            Entity bullet = Ecb.Instantiate(shoot.BulletEntity);
+            //TODO bullet spawn location on Unit
+            //TODO rotate bullet towards target
         }
     }
 }

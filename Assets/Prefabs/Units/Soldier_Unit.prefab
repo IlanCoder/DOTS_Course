@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   shootCd: 0.3
+  bulletPref: {fileID: 273394776536442216, guid: cbc5bbb511954a44287aac939a3390b3, type: 3}
 --- !u!114 &869794773751903882
 MonoBehaviour:
   m_ObjectHideFlags: 0

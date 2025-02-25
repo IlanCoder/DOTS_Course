@@ -8,8 +8,9 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Transforms;
+using SearchTargetSphereCastJob = ECS.Jobs.Combat.SearchTargetSphereCastJob;
 
-namespace ECS.Systems {
+namespace ECS.Systems.Combat {
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     public partial struct SearchTargetSystem : ISystem {
         EntityQuery _soldiers;

@@ -2,11 +2,10 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 
-namespace ECS.Jobs {
+namespace ECS.Jobs.Combat {
     [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
     [BurstCompile]
     public partial struct SearchTargetSphereCastJob : IJobEntity {
