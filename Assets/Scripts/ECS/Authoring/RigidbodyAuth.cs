@@ -12,7 +12,6 @@ namespace ECS.Authoring {
                 _rbConstraints = GetComponent<Rigidbody>().constraints;
                 Entity entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new RigidbodyLocks {
-                    
                     RotationLocks = new bool3((_rbConstraints & RigidbodyConstraints.FreezeRotationX) != RigidbodyConstraints.None, 
                         (_rbConstraints & RigidbodyConstraints.FreezeRotationY) != RigidbodyConstraints.None, 
                         (_rbConstraints & RigidbodyConstraints.FreezeRotationZ) != RigidbodyConstraints.None)

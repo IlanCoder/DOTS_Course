@@ -17,4 +17,7 @@ namespace ECS.SystemGroups {
     [UpdateInGroup(typeof(LateSimulationSystemGroup)),
     UpdateBefore(typeof(DestroyEntitiesSystemGroup))]
     public partial class CreateEntitiesSystemGroup : ComponentSystemGroup { }
+    
+    [UpdateInGroup(typeof(InitializationSystemGroup))]
+    public partial class SetupComponentsSystemGroup : ComponentSystemGroup { }
 }
