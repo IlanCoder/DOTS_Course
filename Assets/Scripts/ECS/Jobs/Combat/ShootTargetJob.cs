@@ -29,6 +29,10 @@ namespace ECS.Jobs.Combat {
             Ecb.SetComponent(bullet, new PhysicsVelocityDirectionInfo {
                 TargetDirection = math.normalize(targetPos - shooterPos)
             });
+            
+            Ecb.SetComponent(bullet, new BulletDamageInfo {
+                Damage = shoot.Damage
+            });
         }
     }
 }
