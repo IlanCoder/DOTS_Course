@@ -110,6 +110,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4955250045950909803, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: searchRadius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5798373731512671337, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: faction
       value: 0
@@ -192,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   shootCd: 0.3
+  shootRange: 0
   bulletPref: {fileID: 273394776536442216, guid: cbc5bbb511954a44287aac939a3390b3, type: 3}
 --- !u!114 &869794773751903882
 MonoBehaviour:

@@ -1,6 +1,9 @@
 ﻿using ECS.Aspects;
+using ECS.Authoring;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Physics;
 
 namespace ECS.Jobs.Movement {
     [BurstCompile]

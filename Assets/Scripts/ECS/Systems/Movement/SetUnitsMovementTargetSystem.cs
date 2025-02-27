@@ -79,6 +79,7 @@ namespace ECS.Systems.Movement {
                 targetPosition.ValueRW.Target = positions[i];
                 if (!SystemAPI.IsComponentEnabled<TargetPosition>(units[i]))
                     SystemAPI.SetComponentEnabled<TargetPosition>(units[i], true);
+                SystemAPI.GetComponentRW<PhysicsMass>(units[i]).ValueRW.InverseMass = 1;
             }
         }
 

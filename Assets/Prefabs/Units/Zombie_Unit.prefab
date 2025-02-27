@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 85cd5279f313d294c8d4eb59ece3cb5b, type: 2}
+    - target: {fileID: 4955250045950909803, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
+      propertyPath: searchRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5798373731512671337, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: faction
       value: 1
