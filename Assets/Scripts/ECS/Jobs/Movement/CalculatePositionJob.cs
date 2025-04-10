@@ -27,7 +27,7 @@ namespace ECS.Jobs.Movement {
         public ComponentLookup<LocalTransform> TransformLookup;
 
         public void Execute(ref TargetPosition targetPosition, in Target target) {
-            targetPosition.Target= TransformLookup.GetRefRO(target.Entity).ValueRO.Position;
+            targetPosition.Target = TransformLookup.GetRefRO(target.Entity).ValueRO.Position;
         }
     }
 }

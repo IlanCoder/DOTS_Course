@@ -7,6 +7,7 @@ namespace ECS.Authoring {
         [SerializeField] float shootCd;
         [SerializeField] float shootRange;
         [SerializeField] GameObject bulletPref;
+        
         private class ShootTargetAuthBaker : Baker<ShootTargetAuth> {
             public override void Bake(ShootTargetAuth authoring) {
                 Entity entity = GetEntity(TransformUsageFlags.None);
@@ -26,7 +27,7 @@ namespace ECS.Authoring {
         public float ShootCd;
         public float CurrentCd;
         public float ShootRange;
-        //TODO Stop at shoot range and start attacking
         public Entity BulletEntity;
+        //BUG: BulletEntity magically disappears after units shoot for a while
     }
 }

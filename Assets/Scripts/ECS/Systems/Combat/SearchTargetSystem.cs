@@ -1,5 +1,5 @@
 ﻿using ECS.Authoring;
-using ECS.Jobs;
+using ECS.Jobs.Combat;
 using ECS.Tags;
 using Statics;
 using Unity.Burst;
@@ -8,7 +8,6 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Transforms;
-using SearchTargetSphereCastJob = ECS.Jobs.Combat.SearchTargetSphereCastJob;
 
 namespace ECS.Systems.Combat {
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -20,7 +19,14 @@ namespace ECS.Systems.Combat {
         public void OnCreate(ref SystemState state) {
             state.RequireForUpdate<PhysicsWorldSingleton>();
             state.RequireForUpdate<FindTarget>();
-            SetEntityQueries(ref state);
+            _soldiers = state.GetEntityQuery(new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<Soldier, LocalTransform, FindTarget>()
+                .WithPresent<Target>()
+            );
+            _zombies = state.GetEntityQuery(new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<Zombie, LocalTransform, FindTarget>()
+                .WithPresent<Target>()
+            );
         }
 
         [BurstCompile]
@@ -46,20 +52,6 @@ namespace ECS.Systems.Combat {
             }.Schedule(_zombies, searchTargetJobs);
             searchTargetJobs.Complete();
             distanceHits.Dispose();
-        }
-        
-        void SetEntityQueries(ref SystemState state) {
-            EntityQueryDesc desc = new EntityQueryDesc {
-                All = new[] {
-                    ComponentType.ReadOnly<Soldier>(),
-                    ComponentType.ReadOnly<LocalTransform>(),
-                    ComponentType.ReadOnly<FindTarget>()
-                },
-                Present = new[] { ComponentType.ReadWrite<Target>() }
-            };
-            _soldiers = state.GetEntityQuery(desc);
-            desc.All[0] = ComponentType.ReadOnly<Zombie>();
-            _zombies = state.GetEntityQuery(desc);
         }
     }
 }
