@@ -28,6 +28,5 @@ namespace ECS.Authoring {
         public float CurrentCd;
         public float ShootRange;
         public Entity BulletEntity;
-        //BUG: BulletEntity magically disappears after units shoot for a while
     }
 }
