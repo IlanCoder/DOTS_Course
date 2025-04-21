@@ -21,7 +21,12 @@ namespace ECS.Jobs.Combat {
             shoot.CurrentCd = shoot.ShootCd;
             
             float3 shooterPos = TransformLookup.GetRefRO(shooter).ValueRO.Position;
-            
+
+            if (shoot.BulletEntity == Entity.Null) return; 
+            /*BUG: BulletEntity Reference gets lost when selecting a new entity in the entity hierarchy.
+             If clicking another entity after loosing the reference with this patch of != Entity.Null,
+             Soldier shoots 1 bullet each interaction with the hierarchy and entity, 
+             yet the zombie looses a lot of health */
             Entity bullet = Ecb.Instantiate(shoot.BulletEntity);
             Ecb.SetComponent(bullet, LocalTransform.FromPosition(shooterPos));
 
