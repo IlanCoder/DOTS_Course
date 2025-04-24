@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1613332738866950967, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: maxHp
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3401183459691502087, guid: 8c54ae4953fe23a4ca3cd592cf9cfafb, type: 3}
       propertyPath: m_Layer

@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ECS.Authoring {
@@ -7,6 +8,7 @@ namespace ECS.Authoring {
         [SerializeField] float shootCd;
         [SerializeField] float shootRange;
         [SerializeField] GameObject bulletPref;
+        [SerializeField] Transform bulletSpawnPos;
         
         private class ShootTargetAuthBaker : Baker<ShootTargetAuth> {
             public override void Bake(ShootTargetAuth authoring) {
@@ -14,7 +16,8 @@ namespace ECS.Authoring {
                 AddComponent(entity, new Shoot {
                     ShootCd = authoring.shootCd,
                     Damage = authoring.damage,
-                    BulletEntity = GetEntity(authoring.bulletPref, TransformUsageFlags.None),
+                    BulletEntity = GetEntity(authoring.bulletPref, TransformUsageFlags.Dynamic),
+                    SpawnPos = authoring.bulletSpawnPos.localPosition,
                     ShootRange = authoring.shootRange
                 });
                 SetComponentEnabled<Shoot>(entity, false);
@@ -23,10 +26,12 @@ namespace ECS.Authoring {
     }
 
     public struct Shoot : IComponentData, IEnableableComponent {
+        //TODO: Look At Shoot Target
         public int Damage;
         public float ShootCd;
         public float CurrentCd;
         public float ShootRange;
+        public float3 SpawnPos;
         public Entity BulletEntity;
     }
 }

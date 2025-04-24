@@ -15,24 +15,29 @@ namespace ECS.Jobs.Combat {
         public EntityCommandBuffer Ecb;
         public ComponentLookup<LocalTransform> TransformLookup;
  
-        public void Execute(Entity shooter, ref Shoot shoot, in Target target) {
+        public void Execute(Entity entity, ref Shoot shoot, in Target target) {
+            //Look At Target
+            
             shoot.CurrentCd -= DeltaTime;
             if (shoot.CurrentCd > 0) return;
             shoot.CurrentCd = shoot.ShootCd;
             
-            float3 shooterPos = TransformLookup.GetRefRO(shooter).ValueRO.Position;
-
-            if (shoot.BulletEntity == Entity.Null) return; 
             /*BUG: BulletEntity Reference gets lost when selecting a new entity in the entity hierarchy.
              If clicking another entity after loosing the reference with this patch of != Entity.Null,
              Soldier shoots 1 bullet each interaction with the hierarchy and entity, 
              yet the zombie looses a lot of health */
+            if (shoot.BulletEntity == Entity.Null) return; 
+            
+            LocalTransform shooterTransform = TransformLookup.GetRefRO(entity).ValueRO;
+            float3 spawnPos = shooterTransform.TransformPoint(shoot.SpawnPos);
+            
             Entity bullet = Ecb.Instantiate(shoot.BulletEntity);
-            Ecb.SetComponent(bullet, LocalTransform.FromPosition(shooterPos));
-
+            Ecb.SetComponent(bullet, LocalTransform.FromPosition(spawnPos));
+            
             float3 targetPos = TransformLookup.GetRefRO(target.Entity).ValueRO.Position;
+            targetPos.y += shoot.SpawnPos.y;
             Ecb.SetComponent(bullet, new PhysicsVelocityDirectionInfo {
-                TargetDirection = math.normalize(targetPos - shooterPos)
+                TargetDirection = math.normalize(targetPos - spawnPos)
             });
             
             Ecb.SetComponent(bullet, new BulletDamageInfo {
