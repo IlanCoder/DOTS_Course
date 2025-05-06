@@ -7,7 +7,7 @@ using Unity.Rendering;
 
 namespace ECS.Systems.Combat {
     [UpdateInGroup(typeof(DestroyEntitiesSystemGroup))]
-    public partial struct DestroyDeadEntities : ISystem {
+    public partial struct DestroyDeadEntitiesSystem : ISystem {
         [BurstCompile]
         public void OnCreate(ref SystemState state) {
             state.RequireForUpdate<Health>();
